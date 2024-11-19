@@ -1,24 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PlayerScorecard from "./Player";
+import axios from "axios";
+
+const API_BASE_URL = "http://localhost:5000";
+export const getMatchStats = () => {
+  return axios.get(`${API_BASE_URL}/api/scoring/match/match1234`);
+};
+export const addDelivery = (deliveryData) => {
+  return axios.post(`${API_BASE_URL}/api/scoring/delivery`, deliveryData);
+};
 
 const ShowScorecard = () => {
-  // Static data for demonstration
-  const scorecard = {
-    teamName: "Team A",
-    totalRuns: 150,
-    totalWickets: 5,
-    legalBalls: 96, // Example: 16 overs
-    extras: {
-      wides: 2,
-      noBalls: 1,
-      byes: 4,
-      legByes: 3,
-    },
-  };
+  const [scorecard, setScorecard] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Calculate overs
-  const overs = Math.floor(scorecard.legalBalls / 6);
-  const ballsInCurrentOver = scorecard.legalBalls % 6;
+  useEffect(() => {
+    const fetchScorecard = async () => {
+      try {
+        const response = await getMatchStats(); // Fetch match data
+        setScorecard(response.data.match); // Use the data from the API response
+        setLoading(false);
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to fetch match stats");
+        setLoading(false);
+      }
+    };
+
+    fetchScorecard();
+  }, []);
+
+  if (loading) {
+    return <p>Loading scorecard...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  if (!scorecard) {
+    return <p>No scorecard data available!</p>;
+  }
+
+  // Calculate overs and balls
+  const overs = Math.floor(scorecard.teamStats.legalBalls / 6);
+  const ballsInCurrentOver = scorecard.teamStats.legalBalls % 6;
 
   return (
     <>
@@ -34,11 +60,11 @@ const ShowScorecard = () => {
           </div>
           <div>
             <h3 className="text-lg font-semibold">Runs:</h3>
-            <p className="text-gray-700">{scorecard.totalRuns}</p>
+            <p className="text-gray-700">{scorecard.teamStats.totalRuns}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Wickets:</h3>
-            <p className="text-gray-700">{scorecard.totalWickets}</p>
+            <p className="text-gray-700">{scorecard.teamStats.totalWickets}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Overs:</h3>
@@ -48,23 +74,27 @@ const ShowScorecard = () => {
           </div>
           <div>
             <h3 className="text-lg font-semibold">Wides:</h3>
-            <p className="text-gray-700">{scorecard.extras.wides}</p>
+            <p className="text-gray-700">{scorecard.teamStats.extras.wides}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">No Balls:</h3>
-            <p className="text-gray-700">{scorecard.extras.noBalls}</p>
+            <p className="text-gray-700">
+              {scorecard.teamStats.extras.noBalls}
+            </p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Leg Byes:</h3>
-            <p className="text-gray-700">{scorecard.extras.legByes}</p>
+            <p className="text-gray-700">
+              {scorecard.teamStats.extras.legByes}
+            </p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Byes:</h3>
-            <p className="text-gray-700">{scorecard.extras.byes}</p>
+            <p className="text-gray-700">{scorecard.teamStats.extras.byes}</p>
           </div>
         </div>
       </div>
-      <PlayerScorecard />
+      <PlayerScorecard batsmanStats={scorecard.batsmanStats} />
     </>
   );
 };
