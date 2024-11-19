@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const scoringRoutes = require('./routes/scoring');
 // install redis
 //const Queue = require('bull'); 
 const dotenv = require('dotenv');
