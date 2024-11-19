@@ -2,14 +2,6 @@ import React, { useState, useEffect } from "react";
 import PlayerScorecard from "./Player";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000";
-export const getMatchStats = () => {
-  return axios.get(`${API_BASE_URL}/api/scoring/match/match1234`);
-};
-export const addDelivery = (deliveryData) => {
-  return axios.post(`${API_BASE_URL}/api/scoring/delivery`, deliveryData);
-};
-
 const ShowScorecard = () => {
   const [scorecard, setScorecard] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,8 +10,10 @@ const ShowScorecard = () => {
   useEffect(() => {
     const fetchScorecard = async () => {
       try {
-        const response = await getMatchStats(); // Fetch match data
-        setScorecard(response.data.match); // Use the data from the API response
+        const response = await axios.get(
+          "http://localhost:5000/api/scoring/match/match123"
+        );
+        setScorecard(response.data.match);
         setLoading(false);
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch match stats");
@@ -42,7 +36,6 @@ const ShowScorecard = () => {
     return <p>No scorecard data available!</p>;
   }
 
-  // Calculate overs and balls
   const overs = Math.floor(scorecard.teamStats.legalBalls / 6);
   const ballsInCurrentOver = scorecard.teamStats.legalBalls % 6;
 
@@ -52,7 +45,6 @@ const ShowScorecard = () => {
         <h2 className="text-2xl font-bold text-indigo-600 text-center mb-4">
           Scorecard
         </h2>
-
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <h3 className="text-lg font-semibold">Team Name:</h3>
@@ -94,7 +86,12 @@ const ShowScorecard = () => {
           </div>
         </div>
       </div>
-      <PlayerScorecard batsmanStats={scorecard.batsmanStats} />
+
+      {/* Pass batsman and bowler stats to PlayerScorecard component */}
+      <PlayerScorecard
+        batsmanStats={scorecard.batsmanStats}
+        bowlerStats={scorecard.bowlerStats}
+      />
     </>
   );
 };
