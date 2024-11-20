@@ -1,10 +1,47 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 const CommentaryButton = () => {
   const [currentStriker, setCurrentStriker] = useState("");
   const [nonStriker, setNonStriker] = useState("");
   const [deliveryType, setDeliveryType] = useState(null);
   const [runScored, setRunScored] = useState(null);
+
+  const handleNewBall = async () => {
+    try {
+      const matchId = uuidv4();
+      // Prepare data for POST request
+      const deliveryData = {
+        matchId: matchId, // Provide the match ID here
+        type: deliveryType,
+        runs: runScored || 0,
+        extras: {}, // Optional, if you have any extras data
+        bowler: "bowlerName", // Provide the bowler's name here
+        batsman: currentStriker, // Current Striker
+      };
+
+      // Send POST request to server
+      const response = await axios.post(
+        "http://localhost:5000/api/scoring/delivery",
+        deliveryData
+      );
+
+      // Handle response (e.g., log or update UI)
+      if (response.data.success) {
+        console.log("Delivery added successfully", response.data.match);
+        // Optionally, reset states after successful request
+        setCurrentStriker("");
+        setNonStriker("");
+        setDeliveryType(null);
+        setRunScored(null);
+      } else {
+        console.error("Failed to add delivery");
+      }
+    } catch (err) {
+      console.error("Error occurred while adding delivery:", err);
+    }
+  };
 
   return (
     <div className="max-w-lg mx-auto bg-[#c4e5c3] shadow-xl rounded-lg p-8 max-h-[60rem]">
@@ -88,16 +125,7 @@ const CommentaryButton = () => {
       {/* New Ball Button */}
       <div>
         <button
-          onClick={() => {
-            console.log({
-              striker: currentStriker,
-              nonStriker,
-              deliveryType,
-              runScored,
-            });
-            setDeliveryType(null);
-            setRunScored(null);
-          }}
+          onClick={handleNewBall}
           disabled={!currentStriker || !nonStriker || !deliveryType}
           className="w-full py-4 text-xl font-bold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
