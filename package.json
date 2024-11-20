@@ -17,6 +17,7 @@
     "express-rate-limit": "^7.4.1",
     "helmet": "^8.0.0",
     "http-proxy-middleware": "^3.0.3",
+    "kush_project": "file:",
     "mongodb": "^6.10.0",
     "mongoose": "^8.8.1",
     "morgan": "^1.10.0",

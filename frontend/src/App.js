@@ -9,6 +9,8 @@ const CricketScoringAdminPanel = () => {
   const [scorecard, setScorecard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isMainSectionOpen, setIsMainSectionOpen] = useState(true);
+  const [isCommentaryOpen, setIsCommentaryOpen] = useState(true);
   useEffect(() => {
     const fetchScorecard = async () => {
       try {
@@ -36,30 +38,44 @@ const CricketScoringAdminPanel = () => {
   if (!scorecard) {
     return <p>No scorecard data available!</p>;
   }
+  const toggleMainSection = () => setIsMainSectionOpen(!isMainSectionOpen);
+  const toggleCommentarySection = () => setIsCommentaryOpen(!isCommentaryOpen);
   return (
-    <div className="flex flex-col h-screen ">
-      <div className="flex flex-row h-[80%]">
-        <div className="w-[44%] h-[88%] p-4 ml-20">
-          <Forms />
-        </div>
-        <div className="w-[44%] h-[88%] p-4">
-          <div className="flex flex-col h-full">
-            <div className="h-[44%] mb-16">
-              <ShowScorecard />
-            </div>
-            <div className="h-[44%]">
-              <PlayerScorecard
-                batsmanStats={scorecard.batsmanStats}
-                bowlerStats={scorecard.bowlerStats}
-              />
+    <div className="flex flex-col h-screen scrollbar-hidden">
+      <button onClick={toggleMainSection} className="w-full text-left p-2 mb-4">
+        {isMainSectionOpen ? "Hide Main Section" : "Show Main Section"}
+      </button>
+      {isMainSectionOpen && (
+        <div className="flex flex-row h-[80%]">
+          <div className="w-[44%] h-[88%] p-4 ml-20">
+            <Forms />
+          </div>
+          <div className="w-[44%] h-[88%] p-4">
+            <div className="flex flex-col h-full">
+              <div className="h-[44%] mb-16">
+                <ShowScorecard />
+              </div>
+              <div className="h-[44%]">
+                <PlayerScorecard
+                  batsmanStats={scorecard.batsmanStats}
+                  bowlerStats={scorecard.bowlerStats}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
+      )}
       {/* Bottom Section: BallByBallCommentary */}
       <div className="h-[20%] w-full p-4">
-        <BallByBallCommentary deliveries={scorecard.deliveries} />
+        <button
+          onClick={toggleCommentarySection}
+          className="w-full text-left p-2 mb-4"
+        >
+          {isCommentaryOpen ? "Hide Commentary" : "Show Commentary"}
+        </button>
+        {isCommentaryOpen && (
+          <BallByBallCommentary deliveries={scorecard.deliveries} />
+        )}
       </div>
     </div>
   );
