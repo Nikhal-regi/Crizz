@@ -24,7 +24,7 @@ const BallByBallCommentary = () => {
   ];
 
   return (
-    <div className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6">
+    <div className="w-[88%] mt-10 mx-auto bg-[#c4e5c3] shadow-md rounded-lg p-6">
       <h2 className="text-2xl font-bold text-indigo-600 text-center mb-6">
         Ball by Ball Commentary
       </h2>

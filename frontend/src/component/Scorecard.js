@@ -41,13 +41,13 @@ const ShowScorecard = () => {
 
   return (
     <>
-      <div className="max-w-lg mx-auto bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-indigo-600 text-center mb-4">
+      <div className="max-w-lg mx-auto text-left  bg-[#c4e5c3] shadow-md rounded-lg p-6">
+        <h2 className="text-2xl font-bold text-indigo-600 text-left mb-4">
           Scorecard
         </h2>
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <h3 className="text-lg font-semibold">Team Name:</h3>
+            <h3 className="text-lg  font-semibold">Team Name:</h3>
             <p className="text-gray-700">{scorecard.teamName}</p>
           </div>
           <div>

@@ -5,15 +5,22 @@ import BallByBallCommentary from "./component/Commentry";
 
 const CricketScoringAdminPanel = () => {
   return (
-    <div className="text-center mb-6">
-      <h2 className="text-3xl font-semibold text-indigo-600">
-        Cricket Scoring Admin Panel
-      </h2>
-      <div className="">
-        <Forms />
-        <ShowScorecard />
+    <div className="flex bg-[#d5efe3] flex-col h-screen">
+      <div className="flex justify-center items-center">
+        {/* Forms on top-left */}
+        <div className="w-1/3">
+          <Forms />        <BallByBallCommentary />
+
+        </div>
+
+        {/* ShowScorecard on the right */}
+        <div className="w-1/3 text-right">
+          <ShowScorecard />
+        </div>
       </div>
-      <BallByBallCommentary />
+
+      {/* BallByBallCommentary at the bottom (footer) */}
+
     </div>
   );
 };
