@@ -41,57 +41,59 @@ const ShowScorecard = () => {
 
   return (
     <>
-      <div className="max-w-lg mx-auto text-left  bg-[#c4e5c3] shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-indigo-600 text-left mb-4">
+      <div className="max-w-lg mx-auto text-left bg-[#c4e5c3] shadow-md rounded-lg p-4">
+        <h2 className="text-xl font-semibold text-indigo-600 text-left mb-3">
           Scorecard
         </h2>
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-2 gap-2 mb-3">
           <div>
-            <h3 className="text-lg  font-semibold">Team Name:</h3>
-            <p className="text-gray-700">{scorecard.teamName}</p>
+            <h3 className="text-base font-medium">Team Name:</h3>
+            <p className="text-gray-700 text-sm">{scorecard.teamName}</p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">Runs:</h3>
-            <p className="text-gray-700">{scorecard.teamStats.totalRuns}</p>
+            <h3 className="text-base font-medium">Runs:</h3>
+            <p className="text-gray-700 text-sm">
+              {scorecard.teamStats.totalRuns}
+            </p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">Wickets:</h3>
-            <p className="text-gray-700">{scorecard.teamStats.totalWickets}</p>
+            <h3 className="text-base font-medium">Wickets:</h3>
+            <p className="text-gray-700 text-sm">
+              {scorecard.teamStats.totalWickets}
+            </p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">Overs:</h3>
-            <p className="text-gray-700">
+            <h3 className="text-base font-medium">Overs:</h3>
+            <p className="text-gray-700 text-sm">
               {overs}.{ballsInCurrentOver}
             </p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">Wides:</h3>
-            <p className="text-gray-700">{scorecard.teamStats.extras.wides}</p>
+            <h3 className="text-base font-medium">Wides:</h3>
+            <p className="text-gray-700 text-sm">
+              {scorecard.teamStats.extras.wides}
+            </p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">No Balls:</h3>
-            <p className="text-gray-700">
+            <h3 className="text-base font-medium">No Balls:</h3>
+            <p className="text-gray-700 text-sm">
               {scorecard.teamStats.extras.noBalls}
             </p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">Leg Byes:</h3>
-            <p className="text-gray-700">
+            <h3 className="text-base font-medium">Leg Byes:</h3>
+            <p className="text-gray-700 text-sm">
               {scorecard.teamStats.extras.legByes}
             </p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold">Byes:</h3>
-            <p className="text-gray-700">{scorecard.teamStats.extras.byes}</p>
+            <h3 className="text-base font-medium">Byes:</h3>
+            <p className="text-gray-700 text-sm">
+              {scorecard.teamStats.extras.byes}
+            </p>
           </div>
         </div>
       </div>
-
-      {/* Pass batsman and bowler stats to PlayerScorecard component */}
-      <PlayerScorecard
-        batsmanStats={scorecard.batsmanStats}
-        bowlerStats={scorecard.bowlerStats}
-      />
     </>
   );
 };
