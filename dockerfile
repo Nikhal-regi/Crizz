@@ -2,7 +2,7 @@
 FROM node:16
 
 # Set working directory
-WORKDIR /app
+WORKDIR /
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # Command to start the application
-CMD ["node", "server.js"]
+CMD ["node", "app.js"]
