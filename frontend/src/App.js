@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 import Forms from "./component/Forms";
 import ShowScorecard from "./component/Scorecard";
 import BallByBallCommentary from "./component/Commentry";
@@ -11,6 +12,7 @@ const CricketScoringAdminPanel = () => {
   const [error, setError] = useState(null);
   const [isMainSectionOpen, setIsMainSectionOpen] = useState(true);
   const [isCommentaryOpen, setIsCommentaryOpen] = useState(true);
+
   useEffect(() => {
     const fetchScorecard = async () => {
       try {
@@ -27,6 +29,7 @@ const CricketScoringAdminPanel = () => {
 
     fetchScorecard();
   }, []);
+
   if (loading) {
     return <p>Loading scorecard...</p>;
   }
@@ -38,44 +41,67 @@ const CricketScoringAdminPanel = () => {
   if (!scorecard) {
     return <p>No scorecard data available!</p>;
   }
+
   const toggleMainSection = () => setIsMainSectionOpen(!isMainSectionOpen);
   const toggleCommentarySection = () => setIsCommentaryOpen(!isCommentaryOpen);
+
   return (
-    <div className="flex flex-col h-screen scrollbar-hidden">
-      <button onClick={toggleMainSection} className="w-full text-left p-2 mb-4">
-        {isMainSectionOpen ? "Hide Main Section" : "Show Main Section"}
+    <div className="flex flex-col h-full scrollbar-hidden">
+      {/* Main Section Toggle */}
+      <button
+        onClick={toggleMainSection}
+        className="w-full p-2 mb-4 flex items-center justify-between bg-gray-100 shadow-md transition-all duration-300"
+      >
+        <span className="text-lg font-semibold">Main Section</span>
+        {isMainSectionOpen ? (
+          <FaChevronUp size={20} />
+        ) : (
+          <FaChevronDown size={20} />
+        )}
       </button>
-      {isMainSectionOpen && (
-        <div className="flex flex-row h-[80%]">
-          <div className="w-[44%] h-[88%] p-4 ml-20">
-            <Forms />
-          </div>
-          <div className="w-[44%] h-[88%] p-4">
-            <div className="flex flex-col h-full">
-              <div className="h-[44%] mb-16">
-                <ShowScorecard />
-              </div>
-              <div className="h-[44%]">
-                <PlayerScorecard
-                  batsmanStats={scorecard.batsmanStats}
-                  bowlerStats={scorecard.bowlerStats}
-                />
-              </div>
+
+      {/* Main Section */}
+      <div
+        className={`flex flex-row overflow-hidden transition-[max-height] duration-500 ${isMainSectionOpen ? "max-h-[1000px]" : "max-h-0"
+          }`}
+      >
+        <div className="flex-1 p-4">
+          <Forms />
+        </div>
+        <div className="flex-1 p-4">
+          <div className="flex flex-col h-full space-y-4">
+            <div className="flex-1">
+              <ShowScorecard />
+            </div>
+            <div className="flex-1">
+              <PlayerScorecard
+                batsmanStats={scorecard.batsmanStats}
+                bowlerStats={scorecard.bowlerStats}
+              />
             </div>
           </div>
         </div>
-      )}
-      {/* Bottom Section: BallByBallCommentary */}
-      <div className="h-[20%] w-full p-4">
+      </div>
+
+      {/* Commentary Section */}
+      <div className="w-full">
         <button
           onClick={toggleCommentarySection}
-          className="w-full text-left p-2 mb-4"
+          className="w-full p-2 mb-4 flex items-center justify-between bg-gray-100 shadow-md transition-all duration-300"
         >
-          {isCommentaryOpen ? "Hide Commentary" : "Show Commentary"}
+          <span className="text-lg font-semibold">Commentary</span>
+          {isCommentaryOpen ? (
+            <FaChevronUp size={20} />
+          ) : (
+            <FaChevronDown size={20} />
+          )}
         </button>
-        {isCommentaryOpen && (
+        <div
+          className={`overflow-hidden  transition-[max-height] duration-500 ${isCommentaryOpen ? "max-h-[300px]" : "max-h-0"
+            }`}
+        >
           <BallByBallCommentary deliveries={scorecard.deliveries} />
-        )}
+        </div>
       </div>
     </div>
   );

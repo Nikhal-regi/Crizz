@@ -19,6 +19,7 @@ const addDelivery = async (req, res) => {
       });
     }
 
+
     // Find or initialize bowler stats
     let bowlerStats = match.bowlerStats.find((b) => b.name === bowler);
     if (!bowlerStats) {
@@ -111,7 +112,7 @@ const addDelivery = async (req, res) => {
     res.status(201).json({ success: true, match });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, error: "Server Error" });
+    res.status(500).json({ success: false, error: "Server Error", details: err.message });
   }
 };
 

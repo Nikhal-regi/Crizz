@@ -17,16 +17,13 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("combined"));
 
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/yourdb', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 100, 
+  windowMs: 15 * 60 * 1000,
+  max: 100,
 });
 app.use(limiter);
 // Redis Implementation (Pull Image From Docker Hub) demo nginx file attached at the end

@@ -20,10 +20,9 @@ const BallByBallCommentary = ({ deliveries }) => {
                 <strong>Ball {index + 1}:</strong>{" "}
                 {delivery.type === "normal"
                   ? `${delivery.runs} runs`
-                  : `${
-                      delivery.type.charAt(0).toUpperCase() +
-                      delivery.type.slice(1)
-                    } (${delivery.runs} runs)`}{" "}
+                  : `${delivery.type.charAt(0).toUpperCase() +
+                  delivery.type.slice(1)
+                  } (${delivery.runs} runs)`}{" "}
                 by {delivery.batsman}.
               </p>
               <p className="text-sm text-gray-500">Bowler: {delivery.bowler}</p>
